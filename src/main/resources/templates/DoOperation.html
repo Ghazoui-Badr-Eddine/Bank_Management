@@ -1,0 +1,83 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org"
+	xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
+	xmlns:sec="http://www.thymeleaf.org/thymeleaf-extras-springsecurity4"
+	layout:decorator="template1">
+
+<head>
+  <script th:src="@{//ajax.googleapis.com/ajax/libs/jquery/1.11.2/jquery.min.js}"></script>
+ <meta charset="utf-8">
+<script>
+
+$(document).ready(function(){
+    $('#vir').change(function(){
+    	$('#dest').css("display","block");
+    });
+});
+$(document).ready(function(){
+    $('.autre').change(function(){
+    	$('#dest').css("display","none");
+    });
+});
+
+</script>
+<title>exécuter une opération</title>
+</head>
+<body>
+	<div layout:fragment="content" sec:authorize="hasRole('ROLE_ADMIN')">
+<div class="offset-md-2 col-lg-8" style="margin-top: 10px;">
+<br /><br/>
+    <div class="card">
+    
+        <div class="card-header text-white" style="background-color:#28292d!important;">Votre Operation </div>
+        <div class="card-body" >
+            <form th:action="@{/SaveOperation}" class="" method="POST">
+                <div class="form-group">
+                    <label class="col-form-label col-md-3">1.Entrez votre compte:</label>
+                    <div class="col-md-6">
+                        <input readonly class="form-control" name="codeCompte" th:value="${session.codeCompte}"
+                        th:unless="${session == null}">
+                    </div>
+                </div>
+                <div class="form-group">
+                    <label class="col-form-label col-md-3" >2.Entrez le type d'operation :</label>
+                    <div class="col-md-3">
+                        <label th:text="VERSEMENT" for="vers"></label>
+                        <input th:value="vers" id="vers" class="autre" name="typeOp" type="radio"
+                        checked>
+                    </div>
+                    <div class="col-md-3">
+                        <label th:text="VIREMENT" for="vir"></label>
+                        <input th:value="vir" id="vir" name="typeOp" type="radio">
+                    </div>
+                    <div class="col-md-3">
+                        <label th:text="RETRAIT" for="ret"></label>
+                        <input th:value="ret" id="ret" class="autre" name="typeOp" type="radio">
+                    </div>
+                </div>
+                <div class="form-group">
+                    <label class="col-form-label col-md-3">3.Entrez le montant souhaité:</label>
+                    <div class="col-md-6">
+                        <input name="montant" class="form-control">
+                    </div>
+                    <div class="offset-sm-3 col-md-9 text-danger" th:text="${#httpServletRequest.getParameter(&apos;erreur&apos;)}"></div>
+                </div>
+                <div class="form-group" id="dest" style="display:none ;">
+                    <label class="col-form-label col-md-3">3.Transféré à:</label>
+                    <div class="col-md-6">
+                        <input class="form-control" name="codeCompte2">
+                    </div>
+                </div>
+                <div class="form-group">
+                    <div class="col-md-2">
+                        <input class="form-control btn btn-primary" type="submit" th:value="ok">
+                    </div>
+                </div>
+            </form>
+        </div>
+    </div>
+</div>
+	</div>
+
+</body>
+</html>

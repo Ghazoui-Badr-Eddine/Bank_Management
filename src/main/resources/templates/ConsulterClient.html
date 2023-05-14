@@ -1,0 +1,63 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org"
+	xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
+	xmlns:sec="http://www.thymeleaf.org/thymeleaf-extras-springsecurity4"
+	layout:decorator="template1">
+<meta charset="UTF-8" />
+<head>
+
+</head>
+
+<body>
+	<div class="row" layout:fragment="content">
+		
+		<div class="col-lg-5" style="margin:0 auto;">
+		<br /><br />
+			<div class="card text-white">
+				<div class="card-header text-center"
+					style="background-color: #28292d !important;">
+					<b>Gérer les clients</b>
+				</div>
+				<div class="card-body">
+				 		
+					<table class="table table-striped">
+					<a th:href="@{/ajouterClient}" class="form-control btn btn-primary" style="margin:10px;width:40%;float:right; background-color:#28292d!important;">Ajouter un Nouveau Client</a>
+						<thead>
+							<tr>
+								<th style="text-align:center">Code Client</th>
+								<th style="text-align:center">Nom </th>
+								<th style="text-align:center">Email</th>
+								<th style="text-align:center">Gestion</th>
+							</tr>
+						</thead>
+						<tr th:each="c:${clients}">
+							<td th:text="${c.code}"></td>
+							<td th:text="${c.nom}"></td>
+							<td th:text="${c.email}"></td>
+							<td>
+							<a class="btn btn-success" th:href="@{/ModifierClient(code=${c.code})}"> Modifier</a> 
+							<a class="btn btn-danger" th:href="@{/deleteClient(code=${c.code})}" onclick="confirm('confirmer la supression')">Supprimer</a>
+							</td>
+						</tr>
+						
+					</table>
+					
+			<nav aria-label="Pagination" style="text-align: center;">
+                <ul class="pagination">
+                   
+                    <li th:each="p,status:${session.pages}" th:if="${status.index < 5 }"
+                    th:class=" ${session.currentpage==status.index} ? 'active' : ''"
+                    class="page-item">	<a th:href="@{/ConsulterClient(clients=${clients} , page=${status.index})}"
+                        th:text="${status.index}" class="page-link"> </a>
+                    </li>
+                    
+                   
+                </ul>
+            </nav>
+		
+				</div>
+			</div>
+		</div>
+	</div>
+</body>
+</html>

@@ -1,0 +1,46 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org"
+	xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
+	xmlns:sec="http://www.thymeleaf.org/thymeleaf-extras-springsecurity4"
+	layout:decorator="template1">
+<meta charset="UTF-8" />
+<head>
+
+</head>
+<body>
+<div layout:fragment="content">	 
+		<div class="offset-lg-1 col-lg-5" style="margin-top:20px;">
+    		<div class="card text-white" >
+        		<div class="card-header text-center" style="background-color:#28292d!important;">	<b>Informations </b>
+       		    </div>
+        	<div class="card-body">
+        	<p th:text=${error} style="color:red"></p>
+        	<p th:text=${success} style="color:green"></p>
+            <form class="" th:action="@{/ajouter}" method="post" id="form_id">
+              <div class="form-group">
+                    <label class="col-form-label col-md-4">Client:</label>
+                   		<div class="col-md-6">
+                        	<input type="text" name="nom"  id ="name" required class="form-control">
+                    	</div>
+                </div>
+                <div class="form-group">
+                    <label class="col-form-label col-md-4">Email:</label>
+                   		<div class="col-md-6">
+                        	<input type="text" name="email" id="email"required class="form-control">
+                    	</div>
+                </div>
+                
+                <button  class="btn btn-primary " type="submit"  > Ajouter </button>
+                <div class="text-danger" th:if="${exception}" th:text="${exception.message}"></div>
+                
+            </form>
+         
+      
+        </div>
+    </div>
+</div>	
+	
+</div>	
+</body>
+
+</html>

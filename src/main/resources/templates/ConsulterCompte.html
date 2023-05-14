@@ -1,0 +1,135 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org"
+	xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
+	xmlns:sec="http://www.thymeleaf.org/thymeleaf-extras-springsecurity4"
+	layout:decorator="template1">
+<meta charset="UTF-8" />
+<head>
+   
+</head>
+<body >
+
+
+	<div layout:fragment="content">
+
+	<div class="offset-md-2 col-lg-8" style="margin-top: 10px;">
+    <div class="card ">
+        <div class="card-header text-white" style="background-color:#28292d!important;">Consulter Compte</div>
+        	<div class="card-body">
+            <form class="" th:action="@{/consulterCompte}" method="get">
+                <div class="form-group">
+                    <label class="col-form-label col-md-3" for="cpte">Code Compte:</label>
+                    <div class="col-md-6">
+                        <input type="text" th:value="(${session.codeCompte != null} and !(${exception}) ) ? ${session.codeCompte} : ${codeCompte}"
+                        class="form-control" id="cpte" name="codeCompte">
+                    </div>
+                <div class="form-group">
+                    <div class="col-md-2">
+                        <input class="form-control btn btn-primary" style="margin-top:5px; background-color:#28292d!important;" type="submit" th:value="ok">
+                    </div>
+                </div>
+                </div>
+            </form>
+            <div class="text-danger" th:if="${exception}" th:text="${exception.message}"></div>
+        	</div>
+    </div>
+	</div>
+   
+
+	<div class="offset-lg-1 col-lg-5" style="margin-top:20px;">
+    	<div class="card text-white" th:if="!(${exception}) and (${compte} or ${session.monCompte != null})">
+        <div class="card-header text-center" style="background-color:#28292d!important;">	<b>Informations </b>
+        </div>
+        <div class="card-body">
+            <form class="">
+                <div class="form-group">
+                    <label class="col-form-label col-md-4">Client:</label>
+                    <div class="col-md-6">
+                        <input th:value="${session.monCompte != null} ? ${session.monCompte.client.nom} : ${compte.client.nom} " readonly class="form-control">
+                    </div>
+                </div>
+                <div class="form-group">
+                    <label class="col-form-label col-md-4">Code:</label>
+                    <div class="col-md-6">
+                        <input th:value="${session.monCompte.codeCompte}" readonly class="form-control">
+                    </div>
+                </div>
+                <div class="form-group">
+                    <label class="col-form-label col-md-4">Solde:</label>
+                    <div class="col-md-6">
+                        <input th:value="${session.monCompte.solde}+&apos; dh&apos;" readonly
+                        class="form-control">
+                    </div>
+                </div>
+                <div class="form-group">
+                    <label class="col-form-label col-md-4">Date de creation:</label>
+                    <div class="col-md-6">
+                        <input class="form-control" readonly th:value="${session.monCompte.dateCreation}">
+                    </div>
+                </div>
+                <div class="form-group">
+                    <label class="col-form-label col-md-4">Type de compte:</label>
+                    <div class="col-md-6">
+                        <input th:value="${session.monCompte.class.simpleName}" readonly class="form-control">
+                    </div>
+                </div>
+                <div th:if="${session.monCompte.class.simpleName==&apos;CompteCourant&apos;}" class="form-group">
+                    <label class="col-form-label col-md-4">Decouvet:</label>
+                    <div class="col-md-6">
+                        <input th:value="${session.monCompte.decouvert}+&apos; dh&apos;" readonly class="form-control">
+                    </div>
+                </div>
+                <div th:if="${session.monCompte.class.simpleName==&apos;CompteEpargne&apos;}" class="form-group">
+                    <label class="col-form-label col-md-4">taux:</label>
+                    <div class="col-md-6">
+                        <input class="form-control" th:value="${session.monCompte.taux} +&apos; %&apos;"  readonly>
+                    </div>
+                </div>
+            </form>
+        	</div>
+    	</div>
+	</div>
+		 
+		 
+		 
+		   
+	<div class="col-lg-5" style="margin-top:20px;">
+    	<div class="card text-white" th:if="!(${exception}) and (${compte} or ${session.monCompte != null})">
+        <div class="card-header text-center" style="background-color:#28292d!important;">	<b>Operations</b>
+        </div>
+        <div class="card-body">
+            <table class="table table-striped">
+                <thead>
+                    <tr>
+                        <th>Numero</th>
+                        <th>Type</th>
+                        <th>Date</th>
+                        <th>Montant</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr th:each="o:${session.monOp}">
+                        <td th:text="${o.numero}"></td>
+                        <td th:text="${o.class.simpleName}"></td>
+                        <td th:text="${o.dateOperation}"></td>
+                        <td th:text="${o.montant}"></td>
+                    </tr>
+                </tbody>
+            </table>
+            <nav aria-label="Pagination" style="text-align: center;">
+                <ul class="pagination">
+                    
+                    <li th:each="p,status:${session.pages}" th:if="${status.index < 5 }"
+                    th:class=" ${session.currentpage==status.index} ? 'active' : ''"
+                    class="page-item">	<a th:href="@{/consulterCompte(codeCompte=${codeCompte} , page=${status.index})}"
+                        th:text="${status.index}" class="page-link"> </a>
+                    </li>
+                    
+                </ul>
+            </nav>
+        </div>
+    </div>
+</div>
+</div>
+</body>
+</html>

@@ -1,0 +1,50 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org"
+	xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
+	xmlns:sec="http://www.thymeleaf.org/thymeleaf-extras-springsecurity4"
+	layout:decorator="template1">
+<meta charset="UTF-8" />
+<head>
+
+</head>
+<body>
+<div layout:fragment="content">
+
+<div class="offset-md-2 col-lg-8" style="margin-top: 10px;">
+    <div class="card ">
+        <div class="card-header text-white" style="background-color:#28292d!important;">Modifier Compte</div>
+        <div class="card-body">
+        
+            <form class="" th:action="@{/Modifier}" method="get">
+                <div class="form-group">
+                    <label class="col-form-label col-md-3" for="clients">Code:</label>
+                    <div class="col-md-6">
+                        <input type="text" th:value="${client.code}"
+                        class="form-control" id="cpte" name="code">
+                    </div>
+                    <label class="col-form-label col-md-3" for="clients">Nom:</label>
+                    <div class="col-md-6">
+                        <input type="text" th:value="${client.nom}"
+                        class="form-control" id="cpte" name="nom">
+                    </div>
+                    <label class="col-form-label col-md-3" for="clients">Email:</label>
+                    <div class="col-md-6">
+                        <input type="email" th:value="${client.email}"
+                        class="form-control" id="cpte" name="email">
+                    </div>
+                <div class="form-group">
+                    <div class="col-md-2">
+                        <input class="form-control btn btn-primary" style="margin-top:5px; background-color:#28292d!important;" type="submit" value="Modifier">
+                    </div>
+                </div>
+                </div>
+                
+            </form>
+            
+            
+        </div>
+    </div>
+</div>
+</div>
+</body>
+</html>
